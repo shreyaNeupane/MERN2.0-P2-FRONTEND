@@ -1,6 +1,6 @@
 
 import Card from "../../globals/components/card/Card";
-import Navbar from "../../globals/components/navbar/navbar";
+import Navbar from "../../globals/components/navbar/Navbar";
 
 const Home = () => {
 
