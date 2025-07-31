@@ -1,6 +1,26 @@
+import { Link } from "react-router-dom";
+import type { Props, UserDataType } from "./types";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 
 
-const Form = () => {
+const Form: React.FC<Props> = ({ type, onSubmit }) => {
+const [userData,setUserData] = useState<UserDataType>({
+  email : "",
+  username : "",
+  password : ""
+})
+
+const handleChange = (e:ChangeEvent<HTMLInputElement>)=> {
+  const {name,value} = e.target
+  setUserData({
+    ...userData,
+    [name] : value
+  })
+}
+const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
+  e.preventDefault()
+  onSubmit(userData)
+}
   return (
     <>
       {/* Pages: Sign In: Boxed */}
@@ -34,7 +54,8 @@ const Form = () => {
                   <span>Company</span>
                 </h1>
                 <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Welcome, please sign in to your dashboard
+                  Welcome, please {type === "register" ? "sign up" : "sign in"}{" "}
+                  to your dashboard
                 </h2>
               </header>
               {/* END Header */}
@@ -43,7 +64,7 @@ const Form = () => {
               <div className="flex flex-col overflow-hidden rounded-lg bg-white shadow-xs dark:bg-gray-800 dark:text-gray-100">
                 <div className="grow p-5 md:px-16 md:py-12">
                   <form
-                    onSubmit={(e) => e.preventDefault()}
+                    onSubmit={handleSubmit}
                     className="space-y-6"
                   >
                     <div className="space-y-1">
@@ -59,8 +80,27 @@ const Form = () => {
                         name="email"
                         placeholder="Enter your email"
                         className="block w-full rounded-lg border border-gray-200 px-5 py-3 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring-3 focus:ring-blue-500/50 dark:border-gray-600 dark:bg-gray-800 dark:placeholder-gray-400 dark:focus:border-blue-500"
+                        onChange={handleChange}
                       />
                     </div>
+                    {type === "register" && (
+                      <div className="space-y-1">
+                        <label
+                          htmlFor="username"
+                          className="inline-block text-sm font-medium"
+                        >
+                          Username
+                        </label>
+                        <input
+                          type="username"
+                          id="username"
+                          name="username"
+                          placeholder="Enter your username"
+                          className="block w-full rounded-lg border border-gray-200 px-5 py-3 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring-3 focus:ring-blue-500/50 dark:border-gray-600 dark:bg-gray-800 dark:placeholder-gray-400 dark:focus:border-blue-500"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    )}
                     <div className="space-y-1">
                       <label
                         htmlFor="password"
@@ -74,6 +114,7 @@ const Form = () => {
                         name="password"
                         placeholder="Enter your password"
                         className="block w-full rounded-lg border border-gray-200 px-5 py-3 leading-6 placeholder-gray-500 focus:border-blue-500 focus:ring-3 focus:ring-blue-500/50 dark:border-gray-600 dark:bg-gray-800 dark:placeholder-gray-400 dark:focus:border-blue-500"
+                        onChange={handleChange}
                       />
                     </div>
                     <div>
@@ -111,81 +152,36 @@ const Form = () => {
                             clipRule="evenodd"
                           />
                         </svg>
-                        <span>Sign In</span>
-                      </button>
-                      {/* Divider: With Label */}
-                      <div className="my-5 flex items-center">
-                        <span
-                          aria-hidden="true"
-                          className="h-0.5 grow rounded-sm bg-gray-100 dark:bg-gray-700/75"
-                        />
-                        <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-200">
-                          or sign in with
+                        <span>
+                          {type === "register" ? "Sign Up" : "Sign In"}
                         </span>
-                        <span
-                          aria-hidden="true"
-                          className="h-0.5 grow rounded-sm bg-gray-100 dark:bg-gray-700/75"
-                        />
-                      </div>
-                      {/* END Divider: With Label */}
-                      <div className="grid grid-cols-2 gap-2">
-                        <button
-                          type="button"
-                          className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm leading-5 font-semibold text-gray-800 hover:border-gray-300 hover:text-gray-900 hover:shadow-xs focus:ring-3 focus:ring-gray-300/25 active:border-gray-200 active:shadow-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-gray-200 dark:focus:ring-gray-600/40 dark:active:border-gray-700"
-                        >
-                          <svg
-                            className="bi bi-facebook inline-block size-4 text-[#1877f2]"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 16 16"
-                            aria-hidden="true"
-                          >
-                            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
-                          </svg>
-                          <span>Facebook</span>
-                        </button>
-                        <button
-                          type="button"
-                          className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm leading-5 font-semibold text-gray-800 hover:border-gray-300 hover:text-gray-900 hover:shadow-xs focus:ring-3 focus:ring-gray-300/25 active:border-gray-200 active:shadow-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-gray-200 dark:focus:ring-gray-600/40 dark:active:border-gray-700"
-                        >
-                          <svg
-                            className="bi bi-twitter-x inline-block size-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 16 16"
-                            aria-hidden="true"
-                          >
-                            <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z" />
-                          </svg>
-                          <span className="sr-only">X</span>
-                        </button>
-                      </div>
+                      </button>
                     </div>
                   </form>
                 </div>
-                <div className="grow bg-gray-50 p-5 text-center text-sm md:px-16 dark:bg-gray-700/50">
-                  Don’t have an account yet?{" "}
-                  <a
-                    href="#"
-                    className="font-medium text-blue-600 hover:text-blue-400 dark:text-blue-400 dark:hover:text-blue-300"
-                  >
-                    Sign up
-                  </a>
-                </div>
+                {type === "register" ? (
+                  <div className="grow bg-gray-50 p-5 text-center text-sm md:px-16 dark:bg-gray-700/50">
+                    Already have an account yet?{" "}
+                    <Link
+                      to="/login"
+                      className="font-medium text-blue-600 hover:text-blue-400 dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                      Sign In
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="grow bg-gray-50 p-5 text-center text-sm md:px-16 dark:bg-gray-700/50">
+                    Don’t have an account yet?{" "}
+                    <Link
+                      to="/register"
+                      className="font-medium text-blue-600 hover:text-blue-400 dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                      Sign Up
+                    </Link>
+                  </div>
+                )}
               </div>
               {/* END Sign In Form */}
-
-              {/* Footer */}
-              <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                Powered by{" "}
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 hover:text-blue-400 dark:text-blue-400 dark:hover:text-blue-300"
-                >
-                  Tailkit
-                </a>
-              </div>
-              {/* END Footer */}
             </section>
             {/* END Sign In Section */}
           </div>
