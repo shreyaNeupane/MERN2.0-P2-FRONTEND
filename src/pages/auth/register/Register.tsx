@@ -1,21 +1,32 @@
-import { useDispatch } from "react-redux"
-import  Form  from "../Form"
-import type { UserDataType } from "../types"
-import axios from "axios"
-
+import Form from "../Form";
+import type { UserDataType } from "../types";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { register, resetStatus } from "../../../store/authSlice";
+import { Status } from "../../../globals/types/types";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Register = () => {
-   const dispatch = useDispatch()
-  const handleRegister = async (data:UserDataType ) => {
-    console.log("received user data:", data);
-    // dispatch(register(data))
-    const response = await axios.post('http://localhost:3000/register',data)
-  }
+  const navigate = useNavigate();
+  const { status } = useAppSelector((state) => state.auth);
+
+  const dispatch = useAppDispatch();
+  const handleRegister = async (data: UserDataType) => {
+    dispatch(register(data));
+  };
+  useEffect(() => {
+    if (status === Status.SUCCESS) {
+      dispatch(resetStatus());
+      navigate("/login");
+    }
+  }, [status, navigate, dispatch]);
+  // const response = await axios.post('http://localhost:3000/register',data)
+
   return (
     <div>
-      <Form type="register" onSubmit={handleRegister}/>
+      <Form type="register" onSubmit={handleRegister} />
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

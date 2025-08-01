@@ -2,13 +2,9 @@ import { createSlice } from "@reduxjs/toolkit"; // value import
 import type { PayloadAction } from "@reduxjs/toolkit"; // type import
 
 import API from "../http";
+import { Status } from "../globals/types/types";
 
-export enum Status {
-  LOADING = "loading",
-  SUCCESS = "success",
-  ERROR = "error",
-  IDLE =""
-}
+
 
 interface RegisterData {
   username: string;
@@ -48,9 +44,15 @@ const authSlice = createSlice({
     setStatus(state: AuthState, action: PayloadAction<Status>) {
       state.status = action.payload;
     },
+    resetStatus(state :AuthState){
+      state.status = Status.LOADING
+    },
+    setToken(state :AuthState ,action :PayloadAction<string>){
+      state.user.token = action.payload
+    }
   },
 });
-export const { setUser, setStatus } = authSlice.actions;
+export const { setUser, setStatus , resetStatus , setToken } = authSlice.actions;
 export default authSlice.reducer;
 
 export function register(data: RegisterData) {
@@ -58,7 +60,7 @@ export function register(data: RegisterData) {
     dispatch(setStatus(Status.LOADING));
     try {
       const response = await API.post("register", data);
-      if (response.status === 201) {
+      if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
       } else {
        dispatch(setStatus(Status.ERROR));
@@ -70,12 +72,15 @@ export function register(data: RegisterData) {
 }
 
 export function login(data: LoginData) {
-  return async function loginThunk(dispatch: any) {
+  return async function loginThunk(dispatch:any) {
     try {
       const response = await API.post("login", data);
       dispatch(setStatus(Status.LOADING));
       if (response.status === 200) {
+        const {data} = response.data
         dispatch(setStatus(Status.SUCCESS));
+        dispatch(setToken(data))
+        localStorage.setItem('token',data)
       } else {
        dispatch(setStatus(Status.ERROR));
       }
