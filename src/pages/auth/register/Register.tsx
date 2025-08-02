@@ -20,7 +20,7 @@ const Register = () => {
       navigate("/login");
     }
   }, [status, navigate, dispatch]);
-  // const response = await axios.post('http://localhost:3000/register',data)
+ 
 
   return (
     <div>
