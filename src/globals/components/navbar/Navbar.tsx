@@ -20,7 +20,7 @@ const Navbar = () => {
   return (
     <header
       id="page-header"
-      className="relative flex flex-none items-center py-8"
+      className="relative flex flex-none items-center py-8 bg-gray-800 " 
     >
       {/* Main Header Content */}
       <div className="container mx-auto flex flex-col gap-4 px-4 text-center sm:flex-row sm:items-center sm:justify-between sm:gap-0 lg:px-8 xl:max-w-7xl">
