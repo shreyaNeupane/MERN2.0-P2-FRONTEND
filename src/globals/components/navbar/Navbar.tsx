@@ -20,7 +20,7 @@ const Navbar = () => {
   return (
     <header
       id="page-header"
-      className="relative flex flex-none items-center py-8 bg-gray-800 " 
+      className="relative flex flex-none items-center py-8 bg-gray-800 "
     >
       {/* Main Header Content */}
       <div className="container mx-auto flex flex-col gap-4 px-4 text-center sm:flex-row sm:items-center sm:justify-between sm:gap-0 lg:px-8 xl:max-w-7xl">
@@ -62,13 +62,21 @@ const Navbar = () => {
               </Link>
             </>
           ) : (
-            <Link
-              to="/login"
-              onClick={handlelogout}
-              className="text-sm font-semibold text-gray-900 hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
-            >
-              <span>Logout</span>
-            </Link>
+            <>
+              <Link
+                to="/cart"
+                className="text-sm font-semibold text-gray-900 hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
+              >
+                <span>Cart</span>
+              </Link>
+              <Link
+                to="/login"
+                onClick={handlelogout}
+                className="text-sm font-semibold text-gray-900 hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
+              >
+                <span>Logout</span>
+              </Link>
+            </>
           )}
         </nav>
       </div>

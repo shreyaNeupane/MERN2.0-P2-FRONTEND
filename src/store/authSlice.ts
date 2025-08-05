@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"; // value import
 import type { PayloadAction } from "@reduxjs/toolkit"; // type import
 
-import API from "../http";
+import {API} from "../http";
 import { Status } from "../globals/types/types";
 
 
