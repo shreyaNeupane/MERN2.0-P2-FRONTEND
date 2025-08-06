@@ -1,15 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { useEffect, useState } from "react";
+import { fetchCartItems } from "../../../store/cartSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch()
   const { user } = useAppSelector((state) => state.auth);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const {items} = useAppSelector((state)=>state.carts)
+  console.log(items)
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token || !user.token);
+    dispatch(fetchCartItems())
   }, [user.token]);
 
   const handlelogout = () => {
@@ -25,8 +30,7 @@ const Navbar = () => {
       {/* Main Header Content */}
       <div className="container mx-auto flex flex-col gap-4 px-4 text-center sm:flex-row sm:items-center sm:justify-between sm:gap-0 lg:px-8 xl:max-w-7xl">
         <div>
-          <a
-            href="#"
+          <Link to='/ '
             className="group inline-flex items-center gap-2 text-lg font-bold tracking-wide text-gray-900 hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300"
           >
             <svg
@@ -43,7 +47,7 @@ const Navbar = () => {
               />
             </svg>
             <span>Company</span>
-          </a>
+          </Link>
         </div>
         <nav className="space-x-3 md:space-x-6">
           {!isLoggedIn ? (
@@ -67,7 +71,7 @@ const Navbar = () => {
                 to="/cart"
                 className="text-sm font-semibold text-gray-900 hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
               >
-                <span>Cart</span>
+                <span>Cart<sub>{items.length}</sub></span>
               </Link>
               <Link
                 to="/login"
