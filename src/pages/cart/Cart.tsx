@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import Navbar from "../../globals/components/navbar/Navbar"
 import { deleteCartItem, UpdateCartItem } from "../../store/cartSlice"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
@@ -41,13 +42,13 @@ const Cart = () => {
                         </p>
                       </div>
                       <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
-                        <div className="flex items-center border-gray-100">
-                          <span
-                            className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
-                            onClick={() =>
-                              handleUpdate(item?.Product?.id, item.quantity - 1)
-                            }
-                          >
+                        <div
+                          className="flex items-center border-gray-100"
+                          onClick={() =>
+                            handleUpdate(item?.Product?.id, item.quantity - 1)
+                          }
+                        >
+                          <span className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50">
                             -
                           </span>
                           <input
@@ -110,13 +111,17 @@ const Cart = () => {
             <div className="flex justify-between">
               <p className="text-lg font-bold">Total</p>
               <div className="">
-                <p className="mb-1 text-lg font-bold">Rs {totalPriceInCarts + 100}</p>
+                <p className="mb-1 text-lg font-bold">
+                  Rs {totalPriceInCarts + 100}
+                </p>
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
-            <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
-              Check out
-            </button>
+            <Link to ="/checkout">
+              <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
+                Check out
+              </button>
+            </Link>
           </div>
         </div>
       </div>
